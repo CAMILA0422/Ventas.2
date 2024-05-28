@@ -41,9 +41,12 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel12" pref="206" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="LabelVendedor" min="-2" pref="37" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel12" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
@@ -68,7 +71,10 @@
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="16" max="32767" attributes="0"/>
-                  <Component id="jLabel12" min="-2" pref="218" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel12" alignment="1" min="-2" pref="218" max="-2" attributes="0"/>
+                      <Component id="LabelVendedor" alignment="1" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnNuevaVenta" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
@@ -148,6 +154,11 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Img/supermercado.png"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="LabelVendedor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel8"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -242,7 +253,7 @@
                                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                                       <Component id="jLabel10" min="-2" pref="112" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="LabelTotal" min="-2" pref="43" max="-2" attributes="0"/>
+                                      <Component id="LabelTotal" min="-2" pref="70" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -385,7 +396,7 @@
                         <Column editable="true" title="DESCRIPCION" type="java.lang.Object"/>
                         <Column editable="true" title="CANTIDAD" type="java.lang.Object"/>
                         <Column editable="true" title="PRECIO" type="java.lang.Object"/>
-                        <Column editable="true" title="TOTAL" type="java.lang.Object"/>
+                        <Column editable="false" title="TOTAL" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -410,7 +421,7 @@
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                           <Title/>
                           <Editor/>
                           <Renderer/>

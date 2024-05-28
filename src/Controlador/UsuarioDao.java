@@ -26,6 +26,7 @@ public class UsuarioDao {
     ResultSet rs;
 
     public boolean RegistrarUsuario(Usuario us) {
+        //REALIZA UNA INSERCION A LA BASE DE DATOS CON LOS DATOS REQUERIDOS
         String sql = "INSERT INTO tb_usuario (Nombre, Correo, Pass ) VALUES (?, ?, ?)";
         try {
             con = cn.getConnection();
@@ -48,7 +49,10 @@ public class UsuarioDao {
     }
 
     public List ListarUsuario() {
+        //SE DECLARA UNA INSTANCIA DE LA CLASE ArrayList 
+        //ArrayList ES UNA IMPLEMENTACION DE LIST EN JAVA
         List<Usuario> ListaUs = new ArrayList();
+        //REALIZA UNA CONSULTA A LA TABLA USUARIOS
         String sql = "SELECT * FROM tb_usuario";
         try {
             con = cn.getConnection();
@@ -70,6 +74,7 @@ public class UsuarioDao {
     }
 
     public boolean EliminarUsuario(int id_usuario) {
+        //REALZIA UN DELETE EL CUAL SOLO ELIMINA EL REGISTRO DEL ID SELECCIONADO
         String sql = "DELETE FROM tb_usuario WHERE id_usuario = ?";
         try {
             ps = con.prepareStatement(sql);
@@ -89,6 +94,7 @@ public class UsuarioDao {
     }
     
     public boolean ModificarUsuario(Usuario Us){
+        //REALIZA UN UPDATE PARA MODIFICAR AUNQUE SEA SOLO EL DATO DE UNA COLUMNA
         String sql = " UPDATE tb_usuario SET Nombre=?, Correo=?, Pass=? WHERE id_usuario=?";
         try {
             ps = con.prepareStatement(sql);

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 public class Log extends javax.swing.JFrame {
 
+    //HACEMOS EL LLAMADO DE LA CLASE PARA ACCEDER A LOS ATRIBUTOS
     Login lg = new Login();
     LoginDAO Login = new LoginDAO();
     
@@ -17,15 +18,21 @@ public class Log extends javax.swing.JFrame {
     }
 
       public void validar() {
+          //CREAMOS VARIABLES CON VALOR DE CAMPO DE TEXTO
         String Correo = txtCorreo.getText();
         String Pass = String.valueOf(txtPass.getPassword());
+        //VERIFICAMOS QUE SEA DIFERENTE DE VACIO ACCEDIENDO A LOS ATRIBUTOS DE LA CLASE LOGIN
         if (!"".equals(Correo) || !"".equals(Pass)) {
             lg = Login.log(Correo, Pass);
+            //VALIDAMOS QUE SEA DIFERENTE A NULO
+            //SI LO SON CORRECTOS INGRESAMOS AL SISTEMA
             if (lg.getCorreo()!= null && lg.getPass() != null) {
                 Sistema sis = new Sistema();
                 sis.setVisible(true);
                 dispose();
-            }else {
+            }
+            // Y SI SON ERRONEOS IMPRIME ESTA ALERTA
+            else {
                 JOptionPane.showMessageDialog(null, "Tu Correo o Contraseña son Incorrectos");
             }
         }

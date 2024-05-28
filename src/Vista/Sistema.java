@@ -4,12 +4,15 @@
  */
 package Vista;
 
+import Controlador.Detalle;
 import Controlador.Productos;
 import Controlador.ProductosDao;
 import Controlador.Proveedor;
 import Controlador.ProveedorDao;
 import Controlador.Usuario;
 import Controlador.UsuarioDao;
+import Controlador.Venta;
+import Controlador.VentaDao;
 import Reportes.Excel;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -30,9 +33,12 @@ public class Sistema extends javax.swing.JFrame {
     ProveedorDao prDao = new ProveedorDao();
     Productos pro = new Productos();
     ProductosDao proDao = new ProductosDao();
+    Venta v = new Venta();
+    VentaDao Vdao = new VentaDao();
     DefaultTableModel modelo = new DefaultTableModel();
+    Detalle Dv = new Detalle();
     int item;
-    double Totalpagar = 0.00;
+    double Totalpagar = 0;
 
     public Sistema() {
         initComponents();
@@ -41,17 +47,28 @@ public class Sistema extends javax.swing.JFrame {
     }
 
     public void ListarUsuario() {
+        //REALIZAMOS EL LLAMADO A AL METODO LISTAR USUARIO DEL OBJETO USER 
+        //ESTO NOS DEVUELVE UNA LISTA DE OBJETOS A LA CUAL SE LE ASIGNA LA VARIBLE LLAMADA ListarUs
         List<Usuario> ListarUs = User.ListarUsuario();
+        // ASIGNAMOS A LA VARIABLE MODELO LOS VALORES DE LA TABLA USUARIO
         modelo = (DefaultTableModel) TableUsuario.getModel();
         LimpiarTable();
+        ///CREAMOS UN ARREGLO EL CUAL TIENE UNA LONGITUD DE 4 
         Object[] ob = new Object[4];
+        //RECORRE LA LISTA DE USUARIO
+        //SIZE METODO UTILIZADO PARA OBTENER LA LONGITUD DEL ARREGLO
         for (int i = 0; i < ListarUs.size(); i++) {
+            //ASIGNAMOS LOS ELEMENTOS DEL ARREGLO ob 
             ob[0] = ListarUs.get(i).getId_usuario();
             ob[1] = ListarUs.get(i).getNombre();
             ob[2] = ListarUs.get(i).getCorreo();
             ob[3] = ListarUs.get(i).getPass();
+        //addRow AGREGA UNA NUEVA FILA A LA TABLA CON LOS DATOS CONTENIDOS EN EL ARREGLO ob
             modelo.addRow(ob);
         }
+        //ACTUALIZA EL CONTIDO DE LA TABLA USUARIOS EN LA INTERFAZ
+        //setModel EN JAVA SWING VINCULA UN MODELO DE DATOS, COMÚNMENTE DefaultTableModel,
+        //CON UNA TABLA JTable, PERMITIENDO MOSTRAR LOS DATOS DEL MODELO EN LA TABLA.
         TableUsuario.setModel(modelo);
 
     }
@@ -92,8 +109,13 @@ public class Sistema extends javax.swing.JFrame {
     }
 
     public void LimpiarTable() {
+        //REAIZA UN CICLO QUE RECORRE TODAS LAS FILAS REPRESENTADA POR EL OBJETO 
+        //modelo.getRowCount EL CUAL DEVUELVE EL TOTAL DE FILAS EN LA TABLA
         for (int i = 0; i < modelo.getRowCount(); i++) {
+            //ES UN METODO EL CUAL ELIMINA LA FILA ESPECIFICADA POR SU INDICE
             modelo.removeRow(i);
+            //REALIZA UN DECREMENTO DEL VALOR DEL INDICE i EN 1
+            //ESTO EVITA QUE EL BUCLE SALTE FILAS
             i = i - 1;
 
         }
@@ -116,6 +138,7 @@ public class Sistema extends javax.swing.JFrame {
         btnVenta = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        LabelVendedor = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
@@ -243,14 +266,18 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/supermercado.png"))); // NOI18N
 
+        LabelVendedor.setText("jLabel8");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(LabelVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -270,7 +297,9 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelVendedor, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addComponent(btnNuevaVenta)
                 .addGap(35, 35, 35)
@@ -358,13 +387,22 @@ public class Sistema extends javax.swing.JFrame {
             new String [] {
                 "CODIGO", "DESCRIPCION", "CANTIDAD", "PRECIO", "TOTAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(TableVenta);
         if (TableVenta.getColumnModel().getColumnCount() > 0) {
             TableVenta.getColumnModel().getColumn(0).setPreferredWidth(30);
             TableVenta.getColumnModel().getColumn(1).setPreferredWidth(100);
             TableVenta.getColumnModel().getColumn(2).setPreferredWidth(30);
             TableVenta.getColumnModel().getColumn(3).setPreferredWidth(30);
+            TableVenta.getColumnModel().getColumn(4).setResizable(false);
         }
 
         btnGenerarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/print.png"))); // NOI18N
@@ -440,7 +478,7 @@ public class Sistema extends javax.swing.JFrame {
                                 .addGap(61, 61, 61)
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(LabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(LabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -1009,9 +1047,11 @@ public class Sistema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        // TODO add your handling code here:
+        // LIMPIA LA TABLA
         LimpiarTable();
+        //NOS MUESTRA LOS REGISTROS
         ListarUsuario();
+        //NOS REDIRECCIONA AL PENAL DE USUARIOS
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
@@ -1124,16 +1164,18 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_txtApellidoProveedorActionPerformed
 
     private void btnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoUsuarioActionPerformed
-        // TODO add your handling code here:
+        // LLAMA A LA FUNCION LA CUAL NOS DEJA LOS CAMPOS VACIOS
         LimpiarUsuario();
     }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
 
     private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
         // TODO add your handling code here:
         if (!"".equals(txtIdUsuario.getText())) {
+            //PREGUNTA AL REMITENTE SI ESTA SEGURO DE ELIMINAR ESE USUARIO
             int pregunta = JOptionPane.showConfirmDialog(null, "Esta seguro de eliminar al usuario");
             if (pregunta == 0) {
                 int id_usuario = Integer.parseInt(txtIdUsuario.getText());
+                //HACEMOS EL LLAMADO A LA FUNCION DE ELIMINAR EL REGISTRO
                 User.EliminarUsuario(id_usuario);
                 LimpiarTable();
                 LimpiarUsuario();
@@ -1144,38 +1186,48 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
 
     private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
-        // TODO add your handling code here:
+        // SI NO HA SELECCIONADO UN REGOSTRO 
         if ("".equals(txtIdUsuario.getText())) {
+            // NOS MUESTRA ESTE MENSAJE
             JOptionPane.showConfirmDialog(null, "Seleccione una fila");
         } else {
-
+// VALIDAMOS SI LOS CAMPOS SON DIFERENTES DE VACIO 
             if (!"".equals(txtNombreUsuario.getText()) || !"".equals(txtCorreo.getText()) || !"".equals(txtPass.getText())) {
                 Us.setNombre(txtNombreUsuario.getText());
                 Us.setCorreo(txtCorreo.getText());
                 Us.setPass(txtPass.getText());
                 Us.setId_usuario(Integer.parseInt(txtIdUsuario.getText()));
+                //LLAMAMOS LA FUNCION DEL MODIFICAR
                 User.ModificarUsuario(Us);
                 LimpiarTable();
                 LimpiarUsuario();
                 ListarUsuario();
+                //EN CASO DE TODOS LOS CAMPOS ESTEN LLENOS NOS SALE ESTE MENSAJE
                 JOptionPane.showMessageDialog(null, "Usuario Actualizado");
-            } else {
+            } 
+            //DE LO CONTRARIO NOS MUESTRA ESTE 
+            else {
                 JOptionPane.showMessageDialog(null, "Los campos estan vacios");
             }
         }
     }//GEN-LAST:event_btnEditarUsuarioActionPerformed
 
     private void btnGuardarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarUsuarioActionPerformed
+       //VALIDA QUE LOS CAMPOS SEAN DIFERENTES DE VACIO
         if (!"".equals(txtNombreUsuario.getText()) || !"".equals(txtCorreo.getText()) || !"".equals(txtPass.getText())) {
             Us.setNombre(txtNombreUsuario.getText());
             Us.setCorreo(txtCorreo.getText());
             Us.setPass(txtPass.getText());
+            //LLAMAMOS LA FUNCION PARA REALIZAR LA INSERCCION DE LOS DATOS
             User.RegistrarUsuario(Us);
             LimpiarTable();
             LimpiarUsuario();
             ListarUsuario();
+            //SI LOS CAMPOS ESTAN LLENOS NO MUESTRA ESTE MENSAJE
             JOptionPane.showMessageDialog(null, "Usuario Registrado");
-        } else {
+        }
+        //DE LO CONTRARIO SI NOS FALTO LLENAR UN CAMPO NOS SALE ESTE MENSAJE
+        else {
             JOptionPane.showMessageDialog(null, "Los campos estan vacios");
         }
     }//GEN-LAST:event_btnGuardarUsuarioActionPerformed
@@ -1199,6 +1251,8 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         // TODO add your handling code here:
+        RegistrarVenta();
+        RegistrarDetalle();
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void txtStockDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockDisponibleActionPerformed
@@ -1296,9 +1350,7 @@ public class Sistema extends javax.swing.JFrame {
                     txtStockDisponible.setText("" + pro.getStock());
                     txtCantidadVenta.requestFocus();
                 } else {
-                    txtDescripcionVenta.setText("");
-                    txtPrecioVenta.setText("");
-                    txtStockDisponible.setText("");
+                    LimpiarVenta();
                     txtCodigoVenta.requestFocus();
                 }
             } else {
@@ -1321,13 +1373,13 @@ public class Sistema extends javax.swing.JFrame {
                 if (stock >= cant) {
                     item = item + 1;
                     modelo = (DefaultTableModel) TableVenta.getModel();
-                    for (int i = 0; i < TableVenta.getRowCount(); i++){
-                        if(TableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())){
-                            JOptionPane.showMessageDialog(null, "El Producto Ya Esta Registrado");
-                            return;
-                        }
-                        
+                    for (int i = 0; i < TableVenta.getRowCount(); i++) {
+                    Object tableValue = TableVenta.getValueAt(i, 1);
+                    if (tableValue != null && tableValue.equals(txtDescripcionVenta.getText())) {
+                        JOptionPane.showMessageDialog(null, "El Producto Ya Esta Registrado");
+                        return;
                     }
+                }
                     ArrayList lista = new ArrayList();
                     lista.add(item);
                     lista.add(cod);
@@ -1340,10 +1392,12 @@ public class Sistema extends javax.swing.JFrame {
                     O[1] = lista.get(2);
                     O[2] = lista.get(3);
                     O[3] = lista.get(4);
-                    O[4] = lista.get(4);
+                    O[4] = lista.get(5);
                     modelo.addRow(O);
                     TableVenta.setModel(modelo);
-                    //TotalPagar();
+                    Totalpagar();
+                    LimpiarVenta();
+                    txtCodigoVenta.requestFocus();
                 } else {
                     JOptionPane.showMessageDialog(null, "STOCK no disponible");
                 }
@@ -1426,6 +1480,7 @@ public class Sistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelTotal;
+    private javax.swing.JLabel LabelVendedor;
     private javax.swing.JTable TableProducto;
     private javax.swing.JTable TableProveedor;
     private javax.swing.JTable TableUsuario;
@@ -1509,6 +1564,8 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefonoProveedor;
     // End of variables declaration//GEN-END:variables
     private void LimpiarUsuario() {
+        // SI LOS CAMPOS SE ENCUENTRAN OCUPADOS 
+        //ESTA FUNCION LOS DEJA VACIOS
         txtIdUsuario.setText("");
         txtNombreUsuario.setText("");
         txtCorreo.setText("");
@@ -1532,14 +1589,68 @@ public class Sistema extends javax.swing.JFrame {
         txtPrecioPro.setText("");
     }
     
-      private void TotalPagar() {
-        Totalpagar = 0.00;
-        int numFila = TableVenta.getRowCount();
-        for (int i = 0; i < numFila; i++) {
-            double cal = Double.parseDouble(String.valueOf(TableVenta.getModel().getValueAt(i, 4)));
-            Totalpagar = Totalpagar + cal;
+    private void Totalpagar() {
+    Totalpagar = 0;
+    int numFila = TableVenta.getRowCount();
+    for (int i = 0; i < numFila; i++) {
+        Object value = TableVenta.getModel().getValueAt(i, 4);
+        if (value != null) {
+            String valueStr = value.toString();
+            if (!valueStr.isEmpty()) {
+                try {
+                    double cal = Double.parseDouble(valueStr);
+                    Totalpagar += cal;
+                } catch (NumberFormatException e) {
+                    // Manejar el caso en que la cadena no sea un número válido
+                    // Puedes imprimir un mensaje de error o tomar alguna otra acción apropiada
+                    e.printStackTrace();
+                }
+            }
         }
-        LabelTotal.setText(String.format("%.2f", Totalpagar));
     }
+    LabelTotal.setText(String.format("%.2f", Totalpagar));
+}
+
+    private void LimpiarVenta(){
+        txtCodigoVenta.setText("");
+        txtDescripcionVenta.setText("");
+        txtCantidadVenta.setText("");
+        txtStockDisponible.setText("");
+        txtPrecioVenta.setText("");
+    }
+
+    private void RegistrarVenta(){
+        String vendedor = LabelVendedor.getText();
+        double monto = Totalpagar;
+        v.setVendedor(vendedor);
+        v.setTotal(monto);
+        Vdao.RegistrarVenta(v);
+        
+    }
+    
+ private void RegistrarDetalle() {
+    for (int i = 0; i < TableVenta.getRowCount(); i++) {
+        Object codObject = TableVenta.getValueAt(i, 0);
+        Object cantObject = TableVenta.getValueAt(i, 2);
+        Object precioObject = TableVenta.getValueAt(i, 3);
+
+        // Verifica si los valores no son nulos antes de convertirlos
+        if (codObject != null && cantObject != null && precioObject != null) {
+            int cod = Integer.parseInt(codObject.toString());
+            int cant = Integer.parseInt(cantObject.toString());
+            double precio = Double.parseDouble(precioObject.toString());
+            int id = 1;
+
+            Dv.setCod_producto(cod);
+            Dv.setCantidad(cant);
+            Dv.setPrecio(precio);
+            Dv.setId_detalle(id);
+            Vdao.RegistrarDetalle(Dv);
+        } else {
+            // Maneja el caso donde algún valor sea nulo
+            // Puedes mostrar un mensaje de error o realizar alguna otra acción apropiada
+        }
+    }
+}
 
 }
