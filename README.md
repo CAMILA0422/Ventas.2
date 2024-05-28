@@ -13,7 +13,7 @@ Este proyecto es un sistema de ventas desarrollado en Java que se conecta a una 
  
  ## Integrantes:
   
-  * Liceth Martine
+  * Liceth Martinez
   * Gustavo Rojas 
   * Michael Celeita
-  * oscar Andrade
+  * Oscar Andrade
