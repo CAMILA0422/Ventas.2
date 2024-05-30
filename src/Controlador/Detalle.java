@@ -3,6 +3,7 @@ package Controlador;
 
 public class Detalle {
     
+    //LOS ATRIBUTOS(COLUMNAS) DE LA BASE DE DATOS
     private int id_detalle;
     private int cod_producto;
     private int cantidad;
@@ -12,7 +13,7 @@ public class Detalle {
     public Detalle(){
         
     }
-
+    //AQUI AGREGAMOS EL CONSTRUCTOR QUE NOS PERMITE ACCEDER A LA INFORMACION
     public Detalle(int id_detalle, int cod_producto, int cantidad, double precio, int id_ventas) {
         this.id_detalle = id_detalle;
         this.cod_producto = cod_producto;

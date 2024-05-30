@@ -9,6 +9,7 @@ package Controlador;
  * @author bermu
  */
 public class Productos {
+     //LOS ATRIBUTOS(COLUMNAS) DE LA BASE DE DATOS
     private int id_productos;
     private String Cod_Barras;
     private String Nombre_Producto;
@@ -18,7 +19,7 @@ public class Productos {
 
     public Productos() {
     }
-
+    //AQUI AGREGAMOS EL CONSTRUCTOR QUE NOS PERMITE ACCEDER A LA INFORMACION
     public Productos(int id_productos, String Cod_Barras, String Nombre_Producto, String Proveedor, int Stock, double Precio) {
         this.id_productos = id_productos;
         this.Cod_Barras = Cod_Barras;

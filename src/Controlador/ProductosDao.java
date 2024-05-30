@@ -21,6 +21,7 @@ public class ProductosDao {
     ResultSet rs;
 
     public boolean RegistrarProductos(Productos pro) {
+        //REALIZA UNA INSERCION A LA BASE DE DATOS CON LOS DATOS REQUERIDOS
         String sql = "INSERT INTO tb_productos (Cod_Barras, Nombre_Producto, Proveedor, Stock, Precio) VALUES (?, ?, ?, ?, ?)";
         try {
             con = cn.getConnection();
@@ -38,22 +39,27 @@ public class ProductosDao {
         }
     }
 
-    public void ConsultarProveedor(JComboBox proveedor) {
-        String sql = "SELECT Nombre_proveedor FROM tb_proveedor";
-        try {
-            con = cn.getConnection();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                proveedor.addItem(rs.getString("Nombre_proveedor"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.toString());
+   public void ConsultarProveedor(JComboBox proveedor) {
+    // REALIZA UNA CONSULTA DONDE SELECCIONAMOS EL NOMBRE Y APELLIDO DEL PROVEEDOR CONCATENADOS
+    String sql = "SELECT CONCAT(Nombre_proveedor, ' ', Apellido_Proveedor) AS NombreCompleto FROM tb_proveedor";
+    try {
+        con = cn.getConnection();
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            proveedor.addItem(rs.getString("NombreCompleto"));
         }
+    } catch (SQLException e) {
+        System.out.println(e.toString());
     }
+}
+
 
     public List ListarProductos() {
+        //SE DECLARA UNA INSTANCIA DE LA CLASE ArrayList 
+        //ArrayList ES UNA IMPLEMENTACION DE LIST EN JAVA
         List<Productos> ListaPro = new ArrayList();
+        //REALIZA UNA CONSULTA A LA TABLA PRODUCTOS
         String sql = "SELECT * FROM tb_productos";
         try {
             con = cn.getConnection();
@@ -77,6 +83,7 @@ public class ProductosDao {
     }
 
     public boolean EliminarProductos(int id_productos) {
+        //REALZIA UN DELETE EL CUAL SOLO ELIMINA EL REGISTRO DEL ID SELECCIONADO
         String sql = "DELETE FROM tb_productos WHERE id_productos = ?";
         try {
             ps = con.prepareStatement(sql);
@@ -96,6 +103,7 @@ public class ProductosDao {
     }
 
     public boolean ModificarProductos(Productos pro) {
+        //REALIZA UN UPDATE PARA MODIFICAR AUNQUE SEA SOLO EL DATO DE UNA COLUMNA
         String sql = " UPDATE tb_productos SET Cod_Barras=?, Nombre_Producto=?, Proveedor=?, Stock=?, Precio=? WHERE id_productos=?";
         try {
             ps = con.prepareStatement(sql);
@@ -121,6 +129,7 @@ public class ProductosDao {
     
     public Productos BuscarPro(String cod) {
         Productos producto = new Productos();
+        //REALIZA UNA CONSULTA A LA TABLA PRODUCTOS PARA BUSCAR REGISTROS POR EL CODIGO DE BARRAS
         String sql = "SELECT * FROM tb_productos WHERE Cod_Barras=?";
         try {
             con = cn.getConnection();

@@ -2,6 +2,7 @@ package Controlador;
 
 
 public class Proveedor {
+     //LOS ATRIBUTOS(COLUMNAS) DE LA BASE DE DATOS
     private int id_proveedor;
     private String Nombre_Proveedor;
     private String Apellido_Proveedor;
@@ -10,7 +11,7 @@ public class Proveedor {
 
     public Proveedor() {
     }
-
+    //AQUI AGREGAMOS EL CONSTRUCTOR QUE NOS PERMITE ACCEDER A LA INFORMACION
     public Proveedor(int id_proveedor, String Nombre_Proveedor, String Apellido_Proveedor, int Cedula, String Telefono) {
         this.id_proveedor = id_proveedor;
         this.Nombre_Proveedor = Nombre_Proveedor;

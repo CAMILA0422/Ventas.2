@@ -9,6 +9,7 @@ package Controlador;
  * @author bermu
  */
 public class Usuario {
+     //LOS ATRIBUTOS(COLUMNAS) DE LA BASE DE DATOS
     private int id_usuario;
     private String Nombre;
     private String Correo;
@@ -16,7 +17,7 @@ public class Usuario {
 
     public Usuario() {
     }
-
+    //AQUI AGREGAMOS EL CONSTRUCTOR QUE NOS PERMITE ACCEDER A LA INFORMACION
     public Usuario(int id_usuario, String Nombre, String Correo, String Pass) {
         this.id_usuario = id_usuario;
         this.Nombre = Nombre;

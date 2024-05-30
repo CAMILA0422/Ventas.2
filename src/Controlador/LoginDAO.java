@@ -17,7 +17,7 @@ public class LoginDAO {
     public Login log(String Correo, String Pass) {
         //REALIZA UNA CONSULTA DONDE VERIFICA SI EL DATO DE CORREO Y PASS SON IGUALES 
         // A UN REGISTRO QUE SE ENCUENTRE EN LA BASE DE DATOS
-        Login l = new Login(); // Assuming there is a Login class
+        Login l = new Login();
         String sql = "SELECT * FROM tb_usuario WHERE Correo = ? AND Pass = ?";
 
         try {

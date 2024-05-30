@@ -16,6 +16,7 @@ public class ProveedorDao {
     ResultSet rs;
 
     public boolean RegistrarProveedor(Proveedor pr) {
+        //REALIZA UNA INSERCION A LA BASE DE DATOS CON LOS DATOS REQUERIDOS
         String sql = "INSERT INTO tb_proveedor (Nombre_Proveedor, Apellido_Proveedor, Cedula, Telefono) VALUES (?, ?, ?, ?)";
         try {
             con = cn.getConnection();
@@ -39,7 +40,10 @@ public class ProveedorDao {
     }
     
     public List ListarProveedor(){
+        //SE DECLARA UNA INSTANCIA DE LA CLASE ArrayList 
+        //ArrayList ES UNA IMPLEMENTACION DE LIST EN JAVA
         List<Proveedor> ListarPr = new ArrayList();
+        //REALIZA UNA CONSULTA A LA TABLA PROVEEDOR
         String slq = "SELECT * FROM tb_proveedor";
         try {
             con = cn.getConnection();
@@ -61,6 +65,7 @@ public class ProveedorDao {
     }
 
     public boolean EliminarProveedor(int id_proveedor) {
+        //REALZIA UN DELETE EL CUAL SOLO ELIMINA EL REGISTRO DEL ID SELECCIONADO
         String sql = "DELETE FROM tb_proveedor WHERE id_proveedor = ?";
         try {
             ps = con.prepareStatement(sql);
@@ -80,6 +85,7 @@ public class ProveedorDao {
     }
     
     public boolean ModificarProveedor(Proveedor pr){
+        //REALIZA UN UPDATE PARA MODIFICAR AUNQUE SEA SOLO EL DATO DE UNA COLUMNA
         String sql = "UPDATE tb_proveedor SET Nombre_Proveedor=?, Apellido_Proveedor=?, cedula=?, Telefono=? WHERE id_proveedor=?";
         try {
             con = cn.getConnection();

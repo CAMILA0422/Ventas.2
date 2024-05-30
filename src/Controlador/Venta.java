@@ -1,17 +1,16 @@
 package Controlador;
 
 public class Venta {
+     //LOS ATRIBUTOS(COLUMNAS) DE LA BASE DE DATOS
     private int id_ventas;
-    private String vendedor;
     private double total;
     
     public Venta(){
         
     }
-
-    public Venta(int id_ventas, String vendedor, double total) {
+    //AQUI AGREGAMOS EL CONSTRUCTOR QUE NOS PERMITE ACCEDER A LA INFORMACION
+    public Venta(int id_ventas, double total) {
         this.id_ventas = id_ventas;
-        this.vendedor = vendedor;
         this.total = total;
     }
 
@@ -22,15 +21,7 @@ public class Venta {
     public void setId_ventas(int id_ventas) {
         this.id_ventas = id_ventas;
     }
-
-    public String getVendedor() {
-        return vendedor;
-    }
-
-    public void setVendedor(String vendedor) {
-        this.vendedor = vendedor;
-    }
-
+    
     public double getTotal() {
         return total;
     }
