@@ -1,5 +1,4 @@
 # Sistema De ventas Java
-<span style="color:red">Rojo</span>
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3lvZHV1bW16bGdkb3l2eWFxdXFiazZiazVxcXFnMHFwa3UzNWp6cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ckr4W2ppxPBeIF8dx4/giphy.gif" width="1000" height="400">
 
  ---
