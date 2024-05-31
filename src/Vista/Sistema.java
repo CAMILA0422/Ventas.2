@@ -1894,7 +1894,9 @@ public class Sistema extends javax.swing.JFrame {
             doc.add(Encabezado);
             
             ///PRODUCTOS 
-            
+            /*SE INSTANCIA UNA CLASE DE PDFPTable QUE SE USA PARA REALIZAR EL DISEÑO Y FORMA 
+            * DEL REPORTE EN PDF DE LAS VENTAS 
+            */
             PdfPTable tablapro = new PdfPTable (4);
             tablapro.setWidthPercentage(100);
             tablapro.getDefaultCell().setBorder(0);
@@ -1917,6 +1919,7 @@ public class Sistema extends javax.swing.JFrame {
             tablapro.addCell(pro2);
             tablapro.addCell(pro3);
             tablapro.addCell(pro4);
+            //CICLO PARA LLAMAR LOS DATOS DENTRO DE TableVenta
             for (int i = 0; i < TableVenta.getRowCount(); i++) {
                 String producto = TableVenta.getValueAt(i, 1).toString();
                 String cantidad = TableVenta.getValueAt(i, 2).toString();
@@ -1930,7 +1933,7 @@ public class Sistema extends javax.swing.JFrame {
             }
             
             doc.add(tablapro);
-            
+            //ISNTANCIA DE CLASE PARA SITUAR EL TOTAL FIRMA Y MENSAJE EN EL REPORTE
             Paragraph info = new Paragraph();
             info.add(Chunk.NEWLINE);
             info.add("Total a Pagar" + Totalpagar);
@@ -1939,7 +1942,7 @@ public class Sistema extends javax.swing.JFrame {
             
             Paragraph firma = new Paragraph();
             firma.add(Chunk.NEWLINE);
-            firma.add("CANCELACION Y FIMA\n\n");
+            firma.add("CANCELACION Y FIRMA\n\n");
             firma.add("----------------------------------");
             firma.setAlignment(Element.ALIGN_CENTER);
             doc.add(firma);
@@ -1951,9 +1954,9 @@ public class Sistema extends javax.swing.JFrame {
             doc.add(mensaje);
             doc.close();
             archivo.close();
-            
+            //FUNCION PARA QUE ABRA EL DOCUMENTO PDF GENERADO
             Desktop.getDesktop().open(file);
-                    
+          //IMPRIME EL ERROR SI APARECE ALGUNA DE LAS EXCEOCIONES          
         } catch (DocumentException | IOException e) {
             System.out.println(e.toString());
         }
